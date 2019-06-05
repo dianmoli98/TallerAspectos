@@ -44,7 +44,7 @@ public aspect AspectLog  {
         }
     }
     
-    before() : transaccion() {
+    before() : transaccion(){
     	Scanner obj = new Scanner(System.in);  // Create a Scanner object
         System.out.println("Ingrese nombre de usuario: ");
         String name = obj.nextLine();
@@ -82,7 +82,7 @@ public aspect AspectLog  {
     }
     
     
-    before() : dinero() {
+    before() : dinero(){
     	Scanner obj = new Scanner(System.in);  // Create a Scanner object
         System.out.println("Ingrese nombre de usuario: ");
         String name = obj.nextLine();
