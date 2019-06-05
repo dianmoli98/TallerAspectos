@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Scanner;
 
 public aspect AspectLog  {
  
@@ -16,7 +17,7 @@ public aspect AspectLog  {
     pointcut success(): call(* Bank.createUser());
     pointcut transaccion(): call (* Bank.makeTransaction());
     pointcut dinero(): call (* Bank.myMoney());
-    after() throws IOException : success() {
+    after() : success() {
     	System.out.println("**** User created ****");
     	try {
             File file = new File("log.txt");
@@ -32,7 +33,7 @@ public aspect AspectLog  {
             e.printStackTrace();
         } finally {
             try {
-                            //Cierra instancias de FileWriter y BufferedWriter
+                //Cierra instancias de FileWriter y BufferedWriter
                 if (bw != null)
                     bw.close();
                 if (fw != null)
@@ -43,7 +44,16 @@ public aspect AspectLog  {
         }
     }
     
-    after() throws IOException : transaccion(){
+    before() : transaccion() {
+    	Scanner obj = new Scanner(System.in);  // Create a Scanner object
+        System.out.println("Ingrese nombre de usuario: ");
+        String name = obj.nextLine();
+        //Scanner pass = new Scanner(System.in);  // Create a Scanner object
+        System.out.println("Ingrese contrasena: ");
+        String contrasena = obj.nextLine();
+        System.out.println("Username : "+name +" Password: "+contrasena);	     
+    }
+    after() : transaccion(){
     	System.out.println("TRANSACION REALIZADA "+cal.getTime());
     	try {
             File file = new File("log.txt");
@@ -59,7 +69,7 @@ public aspect AspectLog  {
             e.printStackTrace();
         } finally {
             try {
-                            //Cierra instancias de FileWriter y BufferedWriter
+                //Cierra instancias de FileWriter y BufferedWriter
                 if (bw != null)
                     bw.close();
                 if (fw != null)
@@ -71,6 +81,16 @@ public aspect AspectLog  {
     	
     }
     
+    
+    before() : dinero() {
+    	Scanner obj = new Scanner(System.in);  // Create a Scanner object
+        System.out.println("Ingrese nombre de usuario: ");
+        String name = obj.nextLine();
+        //Scanner pass = new Scanner(System.in);  // Create a Scanner object
+        System.out.println("Ingrese contrasena: ");
+        String contrasena = obj.nextLine();
+        System.out.println("Username : "+name +" Password: "+contrasena);	     
+    }
     after() : dinero(){
     	System.out.println("Dinero retirado "+cal.getTime());
     	try {
@@ -87,7 +107,7 @@ public aspect AspectLog  {
             e.printStackTrace();
         } finally {
             try {
-                            //Cierra instancias de FileWriter y BufferedWriter
+                //Cierra instancias de FileWriter y BufferedWriter
                 if (bw != null)
                     bw.close();
                 if (fw != null)
